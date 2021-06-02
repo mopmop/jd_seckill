@@ -18,8 +18,9 @@ if platform == 'win32' or platform == 'win64':
 def getTime():
     url = 'https://a.jd.com//ajax/queryServerData.html'
     ret = requests.get(url).text
+    print('ret: ' + ret)
     js = json.loads(ret)
-    #print(float(js.get('serverTime'))/1000)
+    print(float(js.get('serverTime'))/1000)
     return float(js.get('serverTime')/1000)
 
 def setSystemTimeWin():
@@ -34,7 +35,7 @@ def setSystemTimeWin():
 
 def setSystemTimeUnix():
         cmd = "date -s @" + str(getTime())
-        #print(cmd)
+        print(cmd)
         os.system(cmd)
 
 def setSystemTime():
@@ -48,5 +49,6 @@ def setSystemTime():
 
 
 if __name__ == '__main__':
+    print("set time")
     setSystemTime()  #运行一次后，在本条语句前加#注释后可以查看时间同步情况
     print("京东时间:%s\n本地时间:%s"%(datetime.fromtimestamp(getTime()),datetime.now()))

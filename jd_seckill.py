@@ -9,7 +9,7 @@ import copy
 import _thread
 from bs4 import BeautifulSoup
 #cookie，可以在我的订单页面，搜索list的网络请求，获取cookie值
-thor = '480EE502EE8B75873B145F477F95F1CD04BB1393CE56CC3064CC327472197DFDC2D07F9126673C24171477AB875B98B6950EADEA806E3C6868540305518F7B6318E2A2ACCC0505EEEFB5CA290341EFF08FA5796B9DF5C0E446C081197A1F90FE0C0955A49DBDCE8C28072CB8C2A5273A96FA8432F408941EED3BF54E1D6FF999DC2AE6A1490215DBA45482B76D1EFB7A3580305665BFEC60088FC450A0BEA52B'
+thor = '480EE502EE8B75873B145F477F95F1CD04BB1393CE56CC3064CC327472197DFDF32D48F91E480EE28DDF7C501686019FA138A5B0A497D297D92B9DD47706341AFA9865E7C45364A6CFF7F33A48AEB3176A2F1F05861BAA2BB50961B119DF4E0BA980A8483F22F53F5E7341ADBB56B158EEE89C10B0CC9242167F7A3B150F447768B6A4CD94B2834D38CE6619C251332A7E8FABEA2A56557D954BB2966FA40BA1'
 #日志模板，有颜色和状态
 LOG_TEMPLE_BLUE='\033[1;34m{}\033[0m '
 LOG_TEMPLE_RED='\033[1;31m{}\033[0m '
@@ -25,6 +25,7 @@ class JD:
     #初始化配置
     def __init__(self):
         self.index = 'https://www.jd.com/'
+        # 如果你对文件做出修改 行开头会变颜色！
 
         self.clock_url = 'https://a.jd.com//ajax/queryServerData.html'
         #用户信息获取地址
@@ -44,9 +45,9 @@ class JD:
         self.session = requests.session()
 
         #RX 6700 XT搜索链接
-        self.rep_url = 'https://search.jd.com/search?keyword=amd%20rx6700xt&suggest=1.rem.0.base&wq=amd%20rx6700xt&ev=exprice_5999-5999%5E'
+        self.rep_url = 'https://search.jd.com/search?keyword=msi%203060&qrst=1&suggest=1.rem.0.base&wq=msi%203060&ev=exbrand_%E5%BE%AE%E6%98%9F%EF%BC%88MSI%EF%BC%89%5Eexprice_2999-2999%5E'
         #AMD RADEON RX 6700 XT 12G D6
-        self.g_url = 'https://item.m.jd.com/product/100010663011.html'
+        self.g_url = 'https://item.jd.com/100018555028.html'
         #商品详情地址
         self.item_info_url = 'https://item-soa.jd.com/getWareBusiness?skuId={}'
         #预约地址
@@ -178,7 +179,7 @@ class JD:
             raise Exception("账号验证错误请检查thor")
 
         p = self.session.get(url=self.rep_url, headers=JD.headers) 
-        bf = BeautifulSoup(p.text, features='html5lib')
+        bf = BeautifulSoup(p.text)
         texts = bf.find_all('div', class_ = 'p-name p-name-type-2') 
         for text in texts:
             time.sleep(0.2)
@@ -212,7 +213,7 @@ class JD:
                 if not self.config[key]['appoint_url']:
                     continue
                 ares = self.session.get(url='https:' + self.config[key]['appoint_url'], headers=JD.headers)
-                bf = BeautifulSoup(ares.text, features='html5lib')
+                bf = BeautifulSoup(ares.text)
                 texts = bf.find_all(class_ = 'bd-right-result')
                 if len(texts) > 0:
                     print(key + ' 预约结果：\n' + texts[0].text.strip())
