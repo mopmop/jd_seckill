@@ -9,7 +9,7 @@ import copy
 import _thread
 from bs4 import BeautifulSoup
 #cookie，可以在我的订单页面，搜索list的网络请求，获取cookie值
-thor = ''
+thor = '480EE502EE8B75873B145F477F95F1CD04BB1393CE56CC3064CC327472197DFDC2D07F9126673C24171477AB875B98B6950EADEA806E3C6868540305518F7B6318E2A2ACCC0505EEEFB5CA290341EFF08FA5796B9DF5C0E446C081197A1F90FE0C0955A49DBDCE8C28072CB8C2A5273A96FA8432F408941EED3BF54E1D6FF999DC2AE6A1490215DBA45482B76D1EFB7A3580305665BFEC60088FC450A0BEA52B'
 #日志模板，有颜色和状态
 LOG_TEMPLE_BLUE='\033[1;34m{}\033[0m '
 LOG_TEMPLE_RED='\033[1;31m{}\033[0m '
@@ -43,10 +43,10 @@ class JD:
         #会话
         self.session = requests.session()
 
-        #3080搜索链接
-        self.rep_url = 'https://search.jd.com/search?keyword=3080&qrst=1&wq=3080&shop=1&ev=exbrand_%E4%B8%83%E5%BD%A9%E8%99%B9%EF%BC%88Colorful%EF%BC%89%5E296_136030%5Eexprice_6299-6299%5E'
-        #耕升3080追风
-        self.g_url = 'https://item.jd.com/100015062658.html'
+        #RX 6700 XT搜索链接
+        self.rep_url = 'https://search.jd.com/search?keyword=amd%20rx6700xt&suggest=1.rem.0.base&wq=amd%20rx6700xt&ev=exprice_5999-5999%5E'
+        #AMD RADEON RX 6700 XT 12G D6
+        self.g_url = 'https://item.m.jd.com/product/100010663011.html'
         #商品详情地址
         self.item_info_url = 'https://item-soa.jd.com/getWareBusiness?skuId={}'
         #预约地址
@@ -115,7 +115,7 @@ class JD:
 
                 print(''.join(log))
                 if i > 3600:
-                    print('开始扫描是否有新增3080商品...')
+                    print('开始扫描是否有新增商品...')
                     self.rep()
                     self.appoint()
                     i = 0           
@@ -169,7 +169,7 @@ class JD:
     def rep(self):
         JD.headers['referer'] = 'https://cart.jd.com/cart.action'
         c = requests.cookies.RequestsCookieJar()
-        c.set('thor', self.thor)  
+        c.set('thor', self.thor)
         self.session.cookies.update(c)
         response = self.session.get(
             url=self.user_url, headers=JD.headers).text.strip('jsonpUserinfo()\n')

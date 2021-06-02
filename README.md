@@ -1,7 +1,7 @@
 # jd_seckill  
 
 
-停止更新，供学习参考。
+For Y
   
 感谢 jsxzBillLee的贡献  
 需要 python3   
