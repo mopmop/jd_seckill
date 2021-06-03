@@ -16,12 +16,16 @@ if platform == 'win32' or platform == 'win64':
     import win32api
 
 def getTime():
-    url = 'https://a.jd.com//ajax/queryServerData.html'
-    ret = requests.get(url).text
-    print('ret: ' + ret)
-    js = json.loads(ret)
-    print(float(js.get('serverTime'))/1000)
-    return float(js.get('serverTime')/1000)
+    # url = 'https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5'
+    # ret = requests.get(url).text
+    ret = requests.get(url='https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5',
+                          headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'})
+
+    print('ret: ' + ret.text)
+    js = json.loads(ret.text)
+    print(js)
+    print(float(js.get('currentTime2'))/1000)
+    return float(js.get('currentTime2'))/1000
 
 def setSystemTimeWin():
     jd_time = getTime()
@@ -29,7 +33,7 @@ def setSystemTimeWin():
     #strTime = datetime.strftime(datetime.fromtimestamp(getTime()),'%Y-%m-%d %H:%M:%S.%f')
     #msec = strTime
     strTime = datetime.strftime(datetime.fromtimestamp(jd_time),'%Y-%m-%d %H:%M:%S.%f')
-    msec = int(float(datetime.strftime(datetime.fromtimestamp(jd_time),'%f'))/1000);
+    msec = int(float(datetime.strftime(datetime.fromtimestamp(jd_time),'%f'))/1000)
     print(strTime)
     print('msec：',msec)
 
@@ -49,6 +53,5 @@ def setSystemTime():
 
 
 if __name__ == '__main__':
-    print("set time")
     setSystemTime()  #运行一次后，在本条语句前加#注释后可以查看时间同步情况
     print("京东时间:%s\n本地时间:%s"%(datetime.fromtimestamp(getTime()),datetime.now()))
