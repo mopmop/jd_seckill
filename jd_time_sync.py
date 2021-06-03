@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 '''
     京东时间同步for windows
     需要安装win32api和requests
